@@ -2,6 +2,8 @@
   "private": true,
   "license": "PRIVATE",
   "dependencies": {
+    "chalk": "^5.0.1",
+    "log-update": "^5.0.0",
     "replace-color": "^2.3.0"
   },
   "scripts": {

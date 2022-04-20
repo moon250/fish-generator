@@ -5,8 +5,8 @@ const { primary, secondary } = require("../colors.json").base;
 const models = fs.readdirSync("./models").map(file => file.replace(/.[a-z]+$/, ""));
 
 module.exports = class FishGenerator {
-	static async generateFishes () {
-		for (const model of models) {
+	async generateFishes () {
+		for (let model of models) {
 			for (const mainColor in colors) {
 				await this.generateBases(model, mainColor);
 			}
@@ -16,8 +16,9 @@ module.exports = class FishGenerator {
 		}
 	}
 
-	static async generateBases (model, mainColor) {
-		console.log(`Generating bases of ${model} with color ${mainColor}`);
+	async generateBases (model, mainColor) {
+		const { chalk, logUpdate } = await require("./CliUtils")();
+		logUpdate(chalk.blueBright(`⚙️ Generating bases of ${chalk.white(model)} with color ${chalk.white(mainColor)} (${Object.keys(colors).indexOf(mainColor) + 1}/${Object.keys(colors).length})`));
 
 		let base = `./models/${model}.png`;
 		for (const primaryToReplace of primary) {
@@ -29,11 +30,8 @@ module.exports = class FishGenerator {
 
 			try {
 				base = await replacer({
-					image: base,
-					colors: {
-						type: "hex",
-						targetColor: `#${primaryToReplace}`,
-						replaceColor: `#${colors[mainColor][index]}`,
+					image: base, colors: {
+						type: "hex", targetColor: `#${primaryToReplace}`, replaceColor: `#${colors[mainColor][index]}`,
 					}
 				});
 			} catch (e) {
@@ -43,14 +41,15 @@ module.exports = class FishGenerator {
 			}
 
 			if (primary.length - 1 === index) {
-				await base.write(`./dist/${model}/${mainColor}/base.png`);
+				await base.writeAsync(`./dist/${model}/${mainColor}/base.png`);
 			}
 		}
 	}
 
-	static async fillBases (model, mainColor) {
+	async fillBases (model, mainColor) {
+		const { chalk, logUpdate } = await require("./CliUtils")();
 		for (const secondaryColor in colors) {
-			console.log(`Filling ${mainColor} base of ${model} with color ${secondaryColor}`);
+			logUpdate(chalk.blueBright(`⚙️ Filling ${chalk.white(mainColor)} (${Object.keys(colors).indexOf(mainColor) + 1}/${Object.keys(colors).length}) base of ${chalk.white(model)} with color ${chalk.white(secondaryColor)} (${Object.keys(colors).indexOf(secondaryColor) + 1}/${Object.keys(colors).length})`));
 
 			let base = `./dist/${model}/${mainColor}/base.png`;
 			if (!fs.existsSync(base)) continue;
@@ -64,11 +63,8 @@ module.exports = class FishGenerator {
 
 				try {
 					base = await replacer({
-						image: base,
-						colors: {
-							type: "hex",
-							targetColor: `#${secondaryToReplace}`,
-							replaceColor: `#${colors[secondaryColor][index]}`,
+						image: base, colors: {
+							type: "hex", targetColor: `#${secondaryToReplace}`, replaceColor: `#${colors[secondaryColor][index]}`,
 						}
 					});
 				} catch (e) {
@@ -78,13 +74,13 @@ module.exports = class FishGenerator {
 				}
 
 				if (secondary.length - 1 === index) {
-					await base.write(`./dist/${model}/${mainColor}/${secondaryColor}.png`);
+					await base.writeAsync(`./dist/${model}/${mainColor}/${secondaryColor}.png`);
 				}
 			}
 		}
 	}
 
-	static async deleteBases () {
+	async deleteBases () {
 		const dist = fs.readdirSync("./dist");
 
 		if (dist.length < 0) {
