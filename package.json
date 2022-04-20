@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "license": "PRIVATE",
+  "dependencies": {
+    "replace-color": "^2.3.0"
+  },
+  "scripts": {
+    "generate": "node ./src/index.js"
+  }
+}
