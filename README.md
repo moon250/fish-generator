@@ -8,37 +8,37 @@ automatiquement générer toutes les combinaisons de couleurs possibles
 
 Installez les dépendances avec npm ou yarn
 
-```bash
-$ npm i
+```shell
+npm i
 ```
 
 ou
 
-```bash
-$ yarn
+```shell
+yarn
 ```
 
 Et lancez le script :
 
 Toutes plateformes :
 
-```bash
-$ npm run generate
+```shell
+npm run generate
 ```
 
-```bash
-$ yarn run generate
+```shell
+yarn run generate
 ```
 
 Linux :
 
-```bash
-$ ./generate
+```shell
+./generate
 ```
 
 Windows :
 
-```bash
+```shell
 generate.bat
 ```
 
