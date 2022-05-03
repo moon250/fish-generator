@@ -4,3 +4,5 @@
 node_modules
 models/*
 dist/*
+!models/.gitkeep
+!dist/.gitkeep
