@@ -44,3 +44,5 @@ generate.bat
 
 Les poissons générés sont rangés ainsi :
 ``/dist/<Nom du modèle>/<Couleur Primaire>/<Couleur Secondaire>.png``
+
+_Jugez pas la qualité du code, elle est infame, mais bon ça marche_
