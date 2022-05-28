@@ -90,12 +90,12 @@ module.exports = class FishGenerator {
 	}
 
 	async deleteBases () {
-		const dist = fs.readdirSync("./dist").filter(file => file.endsWith(".zip"));
+		const dist = fs.readdirSync("./dist").filter(file => !file.endsWith(".zip") && file !== ".gitkeep");
 		const safeModels = fs.readdirSync("./models").filter(file => file.endsWith(".safe.png"));
 
 		safeModels.forEach(file => fs.unlinkSync(`./models/${file}`));
 
-		if (dist.length < 0) {
+		if (dist.length <= 0) {
 			console.error("No files generated in dist");
 			process.exit(1);
 			return;
