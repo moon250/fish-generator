@@ -7,6 +7,8 @@ const models = fs.readdirSync("./models").map(file => file.replace(/.[a-z]+$/, "
 module.exports = class FishGenerator {
 	async generateFishes () {
 		for (let model of models) {
+			if (!model) continue;
+
 			await this.generateReplaceSafeModels(model);
 
 			for (const mainColor in colors) {
