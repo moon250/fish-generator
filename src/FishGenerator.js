@@ -2,7 +2,10 @@ const fs = require("fs");
 const replacer = require("replace-color");
 const { colors, safe_replacements } = require("../colors.json");
 const { primary, secondary } = require("../colors.json").base;
-const models = fs.readdirSync("./models").map(file => file.replace(/.[a-z]+$/, "")).filter(file => !file.endsWith(".safe"));
+const models = fs.readdirSync("./models")
+	.filter(element => !fs.lstatSync(`./models/${element}`).isDirectory())
+	.map(file => file.replace(/.[a-z]+$/, ""))
+	.filter(file => !file.endsWith(".safe"));
 
 module.exports = class FishGenerator {
 	async generateFishes () {
@@ -83,6 +86,7 @@ module.exports = class FishGenerator {
 				}
 
 				if (secondary.length - 1 === index) {
+					base = base.resize(64, 64);
 					await base.writeAsync(`./dist/${model}/${mainColor}/${secondaryColor}.png`);
 				}
 			}
